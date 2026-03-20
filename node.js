@@ -9,18 +9,19 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+// ✅ NEW: dynamic port (Render ke liye)
+const PORT = process.env.PORT || 3000;
+
 io.on("connection", (socket) => {
 
   // 🔥 USER JOIN
   socket.on("join", (username) => {
     socket.username = username;
 
-    // store user
     users[socket.id] = username;
 
     console.log(username + " joined");
 
-    // 🔥 send updated user list to everyone
     io.emit("userList", Object.values(users));
   });
 
@@ -61,10 +62,8 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
 
-    // remove user
     delete users[socket.id];
 
-    // update list
     io.emit("userList", Object.values(users));
   });
 });
@@ -92,6 +91,7 @@ async function translateMessage(text) {
 
 app.use(express.static("public"));
 
-server.listen(3000, () => {
-  console.log("Server running on port 3000 🚀");
+// ✅ UPDATED (IMPORTANT)
+server.listen(PORT, () => {
+  console.log("Server running on port " + PORT + " 🚀");
 });
