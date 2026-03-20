@@ -1,0 +1,155 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0f172a;
+}
+
+.chat-container {
+  max-width: 500px;
+  margin: auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #111827;
+}
+
+.header {
+  background: #1f2937;
+  color: #f9fafb;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.message {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 10px;
+  max-width: 75%;
+  font-size: 14px;
+}
+
+/* Sent */
+.sent {
+  background: #2563eb;
+  color: white;
+  align-self: flex-end;
+}
+
+/* Received */
+.received {
+  background: #374151;
+  color: #e5e7eb;
+  align-self: flex-start;
+}
+
+.input-box {
+  display: flex;
+  padding: 10px;
+  background: #1f2937;
+}
+
+.input-box input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  background: #374151;
+  color: white;
+}
+
+.input-box button {
+  margin-left: 10px;
+  padding: 10px 15px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+
+/* Login Page */
+
+
+
+/* Center container */
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Login box */
+.login-box {
+  background: #1f2937;
+  padding: 40px;
+  border-radius: 15px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* Title */
+.login-box h2 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.login-box p {
+  color: #9ca3af;
+  margin-bottom: 20px;
+}
+
+/* Input */
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 15px;
+  background: #374151;
+  color: white;
+  outline: none;
+}
+
+/* Button */
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-box button:hover {
+  background: #1d4ed8;
+}
+
+
+
+#users {
+  color: white;
+  padding: 10px;
+  border-bottom: 1px solid #444;
+}
+
+#users div {
+  padding: 8px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+#users div:hover {
+  background: #1e293b;
+}

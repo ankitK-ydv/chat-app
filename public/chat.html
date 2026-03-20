@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chat App</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="chat-container">
+
+  <div class="header">💬 Chat App</div>
+
+  <div id="users" style="padding:10px; border-bottom:1px solid #ffffff;"></div>
+
+  <div class="messages" id="messages"></div>
+
+  <div class="input-box">
+    <input id="msg" placeholder="Type a message">
+    <button onclick="send()">Send</button>
+  </div>
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+const socket = io();
+
+// username login page se ayega
+let username = localStorage.getItem("username");
+
+// current room variable
+let currentRoom = "";
+
+// ❌ agar direct chat page open kare
+if(!username){
+  window.location.href = "login.html";
+}
+
+// server ko username bhejo
+socket.emit("join", username);
+
+// 🔥 default room (global)
+currentRoom = username + "_global";
+socket.emit("joinRoom", currentRoom);
+
+// 🔥 NEW: user list receive
+socket.on("userList", function(users){
+
+  let usersDiv = document.getElementById("users");
+
+  usersDiv.innerHTML = "<b>Online Users:</b><br>";
+
+  users.forEach(user => {
+
+    if(user !== username){
+      usersDiv.innerHTML += `
+        <div onclick="startChat('${user}')" style="cursor:pointer; padding:5px;">
+          🟢 ${user}
+        </div>
+      `;
+    }
+
+  });
+
+});
+
+// 🔥 NEW: start private chat
+function startChat(otherUser){
+
+  currentRoom = [username, otherUser].sort().join("_");
+
+  socket.emit("joinRoom", currentRoom);
+
+  document.getElementById("messages").innerHTML = "";
+
+  console.log("Chat with:", otherUser);
+}
+
+function send(){
+  let msg = document.getElementById("msg").value;
+  if(msg.trim() === "") return;
+
+  socket.emit("chat message", {
+    msg: msg,
+    roomId: currentRoom
+  });
+
+  document.getElementById("msg").value = "";
+}
+
+socket.on("chat message", function(data){
+  let div = document.createElement("div");
+
+  div.classList.add("message");
+
+  if(data.user === username){
+    div.classList.add("sent");
+  } else {
+    div.classList.add("received");
+  }
+
+  div.innerHTML = `
+    <div>${data.user}</div>
+    <div>${data.original}</div>
+    ${data.translated && data.translated !== data.original 
+      ? `<small>🌐 ${data.translated}</small>` 
+      : ""}
+  `;
+
+  document.getElementById("messages").appendChild(div);
+
+  document.getElementById("messages").scrollTop =
+    document.getElementById("messages").scrollHeight;
+});
+</script>
+
+</body>
+</html>
